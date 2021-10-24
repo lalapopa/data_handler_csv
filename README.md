@@ -15,9 +15,6 @@ Using pip, you can install:
 
 Or using setup.py 
 
-	pip install .
-
-
 ## Example of usage
 
 Need .csv format data with first row be like 'header'
