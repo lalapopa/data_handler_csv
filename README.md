@@ -7,6 +7,17 @@ This package allow to retrive numeric data from CSV table.
 * Take column data relative to another column by index
 * And more usefull function for me 
 
+## Installation
+
+Using pip, you can install:
+	
+	pip install data-handler-csv
+
+Or using setup.py 
+
+	pip install .
+
+
 ## Example of usage
 
 Need .csv format data with first row be like 'header'
