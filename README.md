@@ -36,9 +36,9 @@ force = df.get_column('force', 'time', time_values, inter_value=True)
 
 ## Requirements
 
-	numpy = 1.20.2
-	pandas = 1.2.4
-	scipy = 1.6.3
+	numpy == 1.20.2
+	pandas == 1.2.4
+	scipy == 1.6.3
 
 
 

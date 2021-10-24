@@ -1,1 +1,7 @@
 .cfg
+/dist
+/data_handler_csv.egg-info
+/build
+**/__pycache__
+/__pycache__
+.pyc

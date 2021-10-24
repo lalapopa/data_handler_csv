@@ -1,11 +1,26 @@
 import setuptools
+from pathlib import Path
 
-setuptools.setup(name='datahandler',
-version='0.0.1',
-description='useful function for my work',
-url='#',
-author='LALAPOPA',
-install_requires=['numpy', 'pandas', 'scipy'],
-author_email='labradordeil@mail.ru',
-packages=setuptools.find_packages(),
-zip_safe=False)
+this_directory = Path(__file__).parent
+long_description = (this_directory / "README.md").read_text()
+VERSION = '0.0.1'
+
+setuptools.setup(
+    name="data_handler_csv",
+    version=VERSION,
+    description="useful function for my work",
+    long_description = long_description,
+    long_description_content_type = 'text/markdown',
+    url="https://github.com/lalapopa/data_handler_csv",
+    author="LALAPOPA",
+    install_requires=["numpy", "pandas", "scipy"],
+    author_email="la_la_popa@vk.com",
+    packages=setuptools.find_packages(),
+    keywords=['csv', 'column', 'interpolation', 'data taker'],
+    classifiers=[
+    'Development Status :: 1 - Planning',
+    'Operating System :: Microsoft :: Windows :: Windows 10',
+    'Programming Language :: Python :: 3.9',
+    'License :: OSI Approved :: MIT License',
+    ],
+)
