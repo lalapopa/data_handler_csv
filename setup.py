@@ -3,7 +3,7 @@ from pathlib import Path
 
 this_directory = Path(__file__).parent
 long_description = (this_directory / "README.md").read_text()
-VERSION = '0.0.1'
+VERSION = '0.0.2'
 
 setuptools.setup(
     name="data_handler_csv",
@@ -19,7 +19,6 @@ setuptools.setup(
     keywords=['csv', 'column', 'interpolation', 'data taker'],
     classifiers=[
     'Development Status :: 1 - Planning',
-    'Operating System :: Microsoft :: Windows :: Windows 10',
     'Programming Language :: Python :: 3.9',
     'License :: OSI Approved :: MIT License',
     ],

@@ -58,6 +58,7 @@ class DataHandler:
         transpose_data = data.T
         transpose_data.to_csv(file_name)
         DataHandler.change_dir(go_back=True)
+        print(f'Saved data: {file_name!r}')
 
     def _get_row_indices_where_element(self, column_name, elements):
         column = self.df[column_name].isin(elements)
