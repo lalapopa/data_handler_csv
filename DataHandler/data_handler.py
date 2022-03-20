@@ -261,3 +261,23 @@ class DataHandler:
         a = left_s / right_s
         b = y[1] - a * x[1]
         return lambda x: a * x + b
+
+    @staticmethod
+    def proper_array(x0, xk, s, abs_error=0.00001):
+        """
+        _____________________________________________________________________
+        x0 - array start value.
+        xk - array end value. 
+        s - step size between two value in array.
+        abs_error - just be equal 0.00001
+        _____________________________________________________________________
+
+        Create array with start and stop value in it.
+        """
+        array = np.arange(start=x0, stop=xk, step=s, dtype='f')
+        if abs(array[-1]-xk) < abs_error:
+            pass
+        else:
+            array = np.append(array, xk)
+        return array
+
