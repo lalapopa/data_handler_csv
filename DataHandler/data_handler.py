@@ -60,6 +60,28 @@ class DataHandler:
         DataHandler.change_dir(go_back=True)
         print(f'Saved data: {file_name!r}')
 
+    @staticmethod
+    def save_data_tex(data, data_name, file_name, save_path, units_value=False):
+        try:
+            columns_name = data_name[1]
+            data = pd.DataFrame(data, index=data_name[0], columns=columns_name)
+        except (IndexError, TypeError):
+            try:
+                data = pd.DataFrame(data, index=data_name[0])
+            except TypeError:
+                data = pd.DataFrame(data, index=data_name)
+        
+        DataHandler.change_dir(save_path)
+        transpose_data = data.T
+        if isinstance(units_value, (np.ndarray, np.generic) ):
+            df_units = pd.DataFrame(units_value, index=data_name[0]).T
+            transpose_data = pd.concat([df_units, transpose_data], ignore_index = True)
+
+        with open(file_name, 'w') as f:
+            f.write(transpose_data.style.hide(axis='index').to_latex())
+        DataHandler.change_dir(go_back=True)
+        print(f'Saved data: {file_name!r}')
+
     def _get_row_indices_where_element(self, column_name, elements):
         column = self.df[column_name].isin(elements)
         return column.index[column == True].to_numpy()
@@ -143,6 +165,10 @@ class DataHandler:
 
     @staticmethod
     def get_min_or_max(array, min_or_max="min"):
+        '''
+        Return min or max element index, depends on min_or_max parameter. 
+        Works only with vector. E.g [1, 2, 3, 4, 5], [-0.2, 42, 24.2, 1, -10.2]
+        '''
         if min_or_max == "min":
             min_pos = np.argmin(array).item()
             return min_pos
@@ -203,13 +229,6 @@ class DataHandler:
     @staticmethod
     def find_diff_in_two_plot_by_target(up_plot, down_plot, x, target):
         """
-        _____________________________________________________________________
-        up_plot - linear function.
-        down_plot - linear function divergent from first one.
-        x - x values
-        target - desirable different value between plot.
-        _____________________________________________________________________
-
         This function takes two divergent linear function defined using two
         points on axis corresponded to x.
 
@@ -217,6 +236,11 @@ class DataHandler:
 
         Function result is x value where difference between function
         equal to target value.
+        _____________________________________________________________________
+        up_plot - linear function.
+        down_plot - linear function divergent from first one.
+        x - x values
+        target - desirable different value between plot.
         _____________________________________________________________________
         EXAMPLE:
         we have two functions:
@@ -265,6 +289,7 @@ class DataHandler:
     @staticmethod
     def proper_array(x0, xk, s, abs_error=0.00001):
         """
+        Create array with start and stop value in it.
         _____________________________________________________________________
         x0 - array start value.
         xk - array end value. 
@@ -272,7 +297,6 @@ class DataHandler:
         abs_error - just be equal 0.00001
         _____________________________________________________________________
 
-        Create array with start and stop value in it.
         """
         array = np.arange(start=x0, stop=xk, step=s, dtype='f')
         if abs(array[-1]-xk) < abs_error:
