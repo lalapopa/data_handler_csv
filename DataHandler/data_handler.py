@@ -74,8 +74,8 @@ class DataHandler:
         DataHandler.change_dir(save_path)
         transpose_data = data.T
         if isinstance(units_value, (np.ndarray, np.generic) ):
-            df_units = pd.DataFrame(units_value, index=data_name[0]).T
-            transpose_data = pd.concat([df_units, transpose_data], ignore_index = True)
+            df_units = pd.DataFrame(units_value, index=data_name).T
+            transpose_data = pd.concat([df_units, transpose_data])
 
         with open(file_name, 'w') as f:
             f.write(transpose_data.style.hide(axis='index').to_latex())
