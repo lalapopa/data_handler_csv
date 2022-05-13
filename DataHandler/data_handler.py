@@ -2,6 +2,7 @@ import os
 import numpy as np
 import pandas as pd
 from scipy import interpolate
+import re
 
 
 class DataHandler:
@@ -61,7 +62,8 @@ class DataHandler:
         print(f'Saved data: {file_name!r}')
 
     @staticmethod
-    def save_data_tex(data, data_name, file_name, save_path, units_value=False):
+    def save_data_tex(data, data_name, file_name, save_path, units_value=False,
+            format_table=True):
         try:
             columns_name = data_name[1]
             data = pd.DataFrame(data, index=data_name[0], columns=columns_name)
@@ -77,10 +79,25 @@ class DataHandler:
             df_units = pd.DataFrame(units_value, index=data_name).T
             transpose_data = pd.concat([df_units, transpose_data])
 
+        if format_table:
+            latex_output = transpose_data.style.hide(axis='index')
+            latex_output = DataHandler._format_latex_table(latex_output)
+        else:
+            latex_output = transpose_data.style.hide(axis='index').to_latex()
+
         with open(file_name, 'w') as f:
-            f.write(transpose_data.style.hide(axis='index').to_latex())
+            f.write(latex_output)
         DataHandler.change_dir(go_back=True)
         print(f'Saved data: {file_name!r}')
+
+    def _format_latex_table(latex_input):
+        latex_input = latex_input.to_latex()
+        first_line = latex_input.splitlines()[0]
+        table_arg = re.findall('(?<={)[lr]+(?=})|$', latex_input)[0]
+        formated_table_arg = '|'+''.join(['c|' for i in table_arg])
+        first_line_formated = first_line.replace(table_arg, formated_table_arg) + '\n\hline\n'
+        latex_input = first_line_formated + '\n'.join(latex_input.splitlines()[1:]) 
+        return latex_input.replace("\\\n", "\\ \n\hline\n")
 
     def _get_row_indices_where_element(self, column_name, elements):
         column = self.df[column_name].isin(elements)
